@@ -1,0 +1,37 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "psqlserver01": {
+            "value": "sql-us-dev-01" 
+        },
+        "pdatabase01": {
+            "value": "db-us-dev-01" 
+        },
+        "pappplan01": {
+            "value": "app-plan-us-dev-01" 
+        },
+        "pweapp01": {
+            "value": "web-app-us-dev-01" 
+        },
+        "appinght01": {
+        
+        "value": "insight-us-dev-01" 
+        },
+       
+        
+        "padministratorLogin": {
+            "value": "azureadmin01" 
+        },
+        "padministratorLoginPassword": {
+        "reference": {
+            "keyVault": {
+               "id": "/subscriptions/82be3273-0cca-49d1-86d1-1db6c7a3c960/resourcegroups/rg02/providers/Microsoft.KeyVault/vaults/sub-eus-eng-01"
+        
+
+        },
+        "secretName": "sub-eus-eng-01"
+    }
+}
+}
+}

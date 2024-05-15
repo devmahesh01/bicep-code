@@ -1,0 +1,34 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "psqlserver01": {
+            "value": "sql-us-dev-01" 
+        },
+        "pdatabase01": {
+            "value": "db-us-dev-01" 
+        },
+        "pappplan01": {
+            "value": "app-plan-us-dev-01" 
+        },
+        "pweapp01": {
+            "value": "web-app-us-dev-01" 
+        },
+        "appinght01": {
+        
+        "value": "insight-us-dev-01" 
+        },
+       
+        
+        "padministratorLogin": {
+            "value": "azureadmin01" 
+        },
+        "padministratorLoginPassword": {
+        
+            "value": "azureadmin123456" 
+
+        }
+        
+    }
+}
+

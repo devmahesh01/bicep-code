@@ -1,0 +1,197 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.27.1.19265",
+      "templateHash": "3730133519068141466"
+    }
+  },
+  "parameters": {
+    "psqlserver01": {
+      "type": "string"
+    },
+    "pdatabase01": {
+      "type": "string"
+    },
+    "pappplan01": {
+      "type": "string"
+    },
+    "pweapp01": {
+      "type": "string"
+    },
+    "appinght01": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "web-ue-app-01",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "pappplan01": {
+            "value": "[parameters('pappplan01')]"
+          },
+          "pweapp01": {
+            "value": "[parameters('pweapp01')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.27.1.19265",
+              "templateHash": "5306472910123722152"
+            }
+          },
+          "parameters": {
+            "pappplan01": {
+              "type": "string"
+            },
+            "pweapp01": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Web/serverfarms",
+              "apiVersion": "2020-12-01",
+              "name": "[parameters('pappplan01')]",
+              "location": "west us",
+              "sku": {
+                "name": "S1",
+                "capacity": 1
+              }
+            },
+            {
+              "type": "Microsoft.Web/sites",
+              "apiVersion": "2021-01-15",
+              "name": "[parameters('pweapp01')]",
+              "location": "west us",
+              "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'app-plan-win')]"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "mydb01",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "pdatabase01": {
+            "value": "[parameters('pdatabase01')]"
+          },
+          "psqlserver01": {
+            "value": "[parameters('psqlserver01')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.27.1.19265",
+              "templateHash": "7263597547666018568"
+            }
+          },
+          "parameters": {
+            "psqlserver01": {
+              "type": "string",
+              "defaultValue": ""
+            },
+            "pdatabase01": {
+              "type": "string",
+              "defaultValue": ""
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Sql/servers",
+              "apiVersion": "2014-04-01",
+              "name": "[parameters('psqlserver01')]",
+              "location": "[resourceGroup().location]"
+            },
+            {
+              "type": "Microsoft.Sql/servers/databases",
+              "apiVersion": "2014-04-01",
+              "name": "[format('{0}/{1}', parameters('psqlserver01'), parameters('pdatabase01'))]",
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "edition": "Basic",
+                "maxSizeBytes": "34359738368",
+                "requestedServiceObjectiveName": "Basic"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('psqlserver01'))]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "ingight-us-01",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "appinght01": {
+            "value": "[parameters('appinght01')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.27.1.19265",
+              "templateHash": "12304857694016470805"
+            }
+          },
+          "parameters": {
+            "appinght01": {
+              "type": "string",
+              "defaultValue": ""
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Insights/components",
+              "apiVersion": "2020-02-02",
+              "name": "[parameters('appinght01')]",
+              "location": "west us",
+              "kind": "web",
+              "properties": {
+                "Application_Type": "web"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
